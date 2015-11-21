@@ -64,6 +64,8 @@ func main() {
 			"ts_unix":     i,
 			"ts_unix_pp":  i + 1,
 			"ts_unix_mm":  i - 1,
+			"ts_unix_jpp": ((i + 1) / SITEMAP_JUMP) * SITEMAP_JUMP,
+			"ts_unix_jmm": ((i - 1) / SITEMAP_JUMP) * SITEMAP_JUMP,
 			"ANSIC":       t.Format(time.ANSIC),
 			"UnixDate":    t.Format(time.UnixDate),
 			"RubyDate":    t.Format(time.RubyDate),

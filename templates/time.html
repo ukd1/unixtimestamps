@@ -28,10 +28,12 @@
   <thead>
   <tr>
     <td>
-      &lt; <a href="/unixtimestamp/{{ .ts_unix_mm }}">{{ .ts_unix_mm }}</a> 
+      &lt; <a href="/unixtimestamp/{{ .ts_unix_jmm }}">{{ .ts_unix_jmm }}</a> 
+      &mdash; <a href="/unixtimestamp/{{ .ts_unix_mm }}">{{ .ts_unix_mm }}</a> 
     </td>
     <td class="r">
-      <a href="/unixtimestamp/{{ .ts_unix_pp }}">{{ .ts_unix_pp }}</a> &gt;
+      <a href="/unixtimestamp/{{ .ts_unix_pp }}">{{ .ts_unix_pp }}</a> &mdash;
+      <a href="/unixtimestamp/{{ .ts_unix_jpp }}">{{ .ts_unix_jpp }}</a> &gt;
     </td>
   </tr>
   <tr>
@@ -91,10 +93,12 @@
   <tfoot>
   <tr>
     <td>
+      &lt; <a href="/unixtimestamp/{{ .ts_unix_jmm }}">{{ .ts_unix_jmm }}</a> 
       &lt; <a href="/unixtimestamp/{{ .ts_unix_mm }}">{{ .ts_unix_mm }}</a> 
     </td>
     <td class="r">
-      <a href="/unixtimestamp/{{ .ts_unix_pp }}">{{ .ts_unix_pp }}</a> &gt;
+      <a href="/unixtimestamp/{{ .ts_unix_pp }}">{{ .ts_unix_pp }}</a> &mdash;
+      <a href="/unixtimestamp/{{ .ts_unix_jpp }}">{{ .ts_unix_jpp }}</a> &gt;
     </td>
   </tr>
   </tfoot>
