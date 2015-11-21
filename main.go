@@ -10,7 +10,7 @@ import (
 
 func main() {
 	const RFC2822 = "Mon Jan 02 15:04:05 -0700 2006"
-	const BASE_URL = "https://unixtimestamps.herokuapp.com"
+	const BASE_URL = "https://unixtimestamps.rsmith.co"
 	const SITEMAP_JUMP = 100000
 
 	r := gin.Default()
