@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Unix timestamp {{ .ts_unix }} / {{ .RFC850 }}</title>
+  <meta property="og:title" content="Timestamp: {{ .ts_unix }} / {{ .RFC850 }}" />
+  <meta property="og:description" content="Unix timestamp information about {{ .ts_unix }} and it's conversion to RFC standards" />
+  <meta property="og:url" content="https://www.unixtimestamps.org/unixtimestamp/{{ .ts_unix }}" />
+
+  <meta name="description" content="Unix timestamp information about {{ .ts_unix }} and it's conversion to RFC standards. Convert any unix timestamp to RFC standards.">
+  <meta name="keywords" content="conversion, converter, epoch, programming, rfc, stamp, standards, time, timestamp, unix">
+  <style>
+  body {
+    font-family: "Open Sans","Helvetica Neue",Helvetica,sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  table { margin: 0.5em; }
+  th, td { padding: 0.5em; }
+  th { text-align: left; }
+  td.r { text-align: right; }
+  </style>
+</head>
+<body>
+  <h1>Unix timestamp {{ .ts_unix }}</h1>
+
+  <p>The following table converts the unix timestamp {{ .ts_unix }} to various other RFC formats</p>
+
+  <table>
+  <thead>
+  <tr>
+    <th>Standard name</th>
+    <th>Equivalent</th>
+  </thead>
+  <tbody>
+  <tr>
+    <td>Unix Timestamp:</td>
+    <td><time datetime="{{ .RFC3339 }}">{{ .ts_unix }}</time></td>
+  </tr>
+  <tr>
+    <td>ANSIC:</td>
+    <td><time datetime="{{ .RFC3339 }}">{{ .ANSIC }}</time> in ANSIC format</td>
+  </tr>
+  <tr>
+    <td>UnixDate:</td>
+    <td><time datetime="{{ .RFC3339 }}">{{ .UnixDate }}</time> in Unix Date format</td>
+  </tr>
+  <tr>
+    <td>RubyDate:</td>
+    <td><time datetime="{{ .RFC3339 }}">{{ .RubyDate }}</time> in Ruby Date format</td>
+  </tr>
+  <tr>
+    <td><a href="https://www.ietf.org/rfc/rfc822.txt">RFC822</a>:</td>
+    <td><time datetime="{{ .RFC3339 }}">{{ .RFC822 }}</time> in RFC 822</td>
+  </tr>
+  <tr>
+    <td><a href="https://www.ietf.org/rfc/rfc822.txt">RFC822Z</a>:</td>
+    <td><time datetime="{{ .RFC3339 }}">{{ .RFC822Z }}</time> in RFC822Z format</td>
+  </tr>
+  <tr>
+    <td><a href="https://www.ietf.org/rfc/rfc850.txt">RFC850</a>:</td>
+    <td><time datetime="{{ .RFC3339 }}">{{ .RFC850 }}</time> in RFC 850 format</td>
+  </tr>
+  <tr>
+    <td><a href="https://www.ietf.org/rfc/rfc1123.txt">RFC1123</a>:</td>
+    <td><time datetime="{{ .RFC3339 }}">{{ .RFC1123 }}</time> in RFC 1123 format</td>
+  </tr>
+  <tr>
+    <td><a href="https://www.ietf.org/rfc/rfc1123.txt">RFC1123Z</a>:</td>
+    <td><time datetime="{{ .RFC3339 }}">{{ .RFC1123Z }}</time> in RFC 1123Z format</td>
+  </tr>
+  <tr>
+    <td><a href="https://www.ietf.org/rfc/rfc3339.txt">RFC3339</a>:</td>
+    <td><time datetime="{{ .RFC3339 }}">{{ .RFC3339 }}</time> in RFC 3339 format</td>
+  </tr>
+  <tr>
+    <td><a href="https://www.ietf.org/rfc/rfc3339.txt">RFC3339Nano</a>:</td>
+    <td><time datetime="{{ .RFC3339 }}">{{ .RFC3339Nano }}</time> in RFC 3339 nano format</td>
+  </tr>
+  <tr>
+    <td><a href="https://www.ietf.org/rfc/rfc2822.txt">RFC2822</a>:</td>
+    <td><time datetime="{{ .RFC3339 }}">{{ .RFC2822 }}</time> in RFC 2822 format</td>
+  </tr>
+  </tbody>
+  <tfoot>
+  <tr>
+    <td>
+      &lt; <a href="/unixtimestamp/{{ .ts_unix_mm }}">{{ .ts_unix_mm }}</a> 
+    </td>
+    <td class="r">
+      <a href="/unixtimestamp/{{ .ts_unix_pp }}">{{ .ts_unix_pp }}</a> &gt;
+    </td>
+  </tr>
+  </tfoot>
+  </table>
+
+  <h2>What is the unix time stamp?</h2>
+  <p>It's the number of seconds since the Unix Epoch. The Unix Epoch starts January 1st, 1970 at UTC, and skips <a href="https://en.wikipedia.org/wiki/Leap_second">leap seconds</a>. The Unix Epoch is based on a UTC starting point, so does not change in different timezones. <a href="https://en.wikipedia.org/wiki/Unix_time">Read more on wikipedia</a>.</p>
+
+  <h2>What happens on January 19, 2038?</h2>
+  <p>In early 2038 the Unix Time Stamp, if uses 32-bit signed integer, will overflow. This is really bad. Older systems will need to upgrade their timestamp storage to cope to avoid failure. <a href="https://en.wikipedia.org/wiki/Year_2038_problem">Read more on wikipedia</a>.</p>
+</body>
+</html>
