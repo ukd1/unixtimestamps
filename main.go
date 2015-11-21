@@ -17,7 +17,7 @@ func main() {
 	r.LoadHTMLGlob("templates/*")
 
 	r.GET("/", func(c *gin.Context) {
-		c.String(200, "pong")
+		c.HTML(200, "index.html", gin.H{})
 	})
 
 	r.GET("/robots.txt", func(c *gin.Context) {
