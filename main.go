@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"os"
 	"strconv"
 	"time"
 )
@@ -77,5 +78,9 @@ func main() {
 		})
 	})
 
-	r.Run(":8080") // listen and serve on 0.0.0.0:8080
+	if os.Getenv("PORT") != "" {
+		r.Run(":" + os.Getenv("PORT"))
+	} else {
+		r.Run(":8080")
+	}
 }
