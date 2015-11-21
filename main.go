@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"log"
 	"strconv"
 	"time"
 )
@@ -41,12 +40,9 @@ func main() {
 
 		out := ""
 
-		c.Stream(step)
+		//c.Stream(step)
 
 		i := from
-		c.Stream(func(w io.Writer) bool {
-			return true
-		})
 		for i < to {
 			i += 1
 			out += fmt.Sprintf("%s/unixtimestamp/%d\n", BASE_URL, i)
