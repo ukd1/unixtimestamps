@@ -1,0 +1,36 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: unixtimestamps-service
+spec:
+  selector:
+    app: unixtimestamps
+  ports:
+    - port: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: unixtimestamps
+  labels:
+    app: unixtimestamps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: unixtimestamps
+  template:
+    metadata:
+      labels:
+        app: unixtimestamps
+    spec:
+      containers:
+      - name: unixtimestamps
+        image: ghcr.io/ukd1/unixtimestamps:latest
+        resources:
+          limits:
+            memory: "64Mi"
+            cpu: "100m"
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
