@@ -19,3 +19,4 @@ jobs:
           push: true
           context: .
           tags: ghcr.io/ukd1/unixtimestamps:latest
+          platforms: linux/amd64,linux/arm64
