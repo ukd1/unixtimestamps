@@ -26,5 +26,5 @@ jobs:
           context: .
           tags: ghcr.io/ukd1/unixtimestamps:latest
           platforms: linux/amd64,linux/arm64
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=registry,ref=user/app:buildcache
+          cache-to: type=registry,ref=user/app:buildcache,mode=max
