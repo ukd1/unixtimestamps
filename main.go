@@ -10,6 +10,7 @@ import (
 	ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
 
 func main() {
@@ -19,8 +20,45 @@ func main() {
 
 	r := gin.New()
 	r.Use(gin.Recovery())
+
 	logger, _ := zap.NewProduction()
-	r.Use(ginzap.Ginzap(logger, time.RFC3339, true))
+
+	r.Use(ginzap.GinzapWithConfig(logger, &ginzap.Config{
+		UTC:        true,
+		TimeFormat: time.RFC3339,
+		Context: ginzap.Fn(func(c *gin.Context) []zapcore.Field {
+			fields := []zapcore.Field{}
+
+			if cfRay := c.Writer.Header().Get("CF-RAY"); cfRay != "" {
+				fields = append(fields, zap.String("cf_ray", cfRay))
+			} else {
+				fields = append(fields, zap.String("cf_ray", "?"))
+
+			}
+
+			if cfIpCountry := c.Writer.Header().Get("CF-IPCountry"); cfIpCountry != "" {
+				fields = append(fields, zap.String("cf_ip_country", cfIpCountry))
+			} else {
+				fields = append(fields, zap.String("cf_ip_country", "?"))
+			}
+
+			// Log Real IP
+			clientIP := c.GetHeader("CF-Connecting-IPv6")
+			if clientIP == "" {
+				clientIP = c.GetHeader("CF-Connecting-IP")
+			}
+			if clientIP == "" {
+				clientIP = c.GetHeader("X-Forwarded-For")
+			}
+			if clientIP == "" {
+				clientIP = "?"
+			}
+			fields = append(fields, zap.String("real_ip", clientIP))
+
+			return fields
+		}),
+	}))
+
 	r.LoadHTMLGlob("templates/*")
 
 	r.GET("/", func(c *gin.Context) {
