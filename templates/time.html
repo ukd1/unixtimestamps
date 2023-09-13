@@ -19,10 +19,28 @@
   th, td { padding: 0.5em; }
   th { text-align: left; }
   td.r { text-align: right; }
+
+  #timestampInput, button, form { display: inline-block; margin-bottom: 0; }
   </style>
 </head>
 <body>
   <h1>Unix timestamp {{ .ts_unix }}</h1>
+
+  <div>Jump to a timestamp:
+    <form onsubmit="event.preventDefault(); redirectToTimestamp();" style="display: inline;">
+      <input type="text" id="timestampInput" type="number" min="0" pattern="\d*" placeholder="Enter Unix timestamp">
+      <button type="submit">Go</button>
+    </form>
+  </div>
+
+  <script>
+    function redirectToTimestamp() {
+      const timestamp = parseInt(document.getElementById('timestampInput').value, 10);
+      if (!isNaN(timestamp)) {
+        window.location.href = `https://unixtimestamps.rsmith.co/unixtimestamp/${timestamp}?utm_source=timestamp_form&utm_medium=web&utm_campaign=timestamp_redirect`;
+      }
+    }
+  </script>
 
   <p>The following table converts the unix timestamp {{ .ts_unix }} to various other RFC formats:</p>
 
