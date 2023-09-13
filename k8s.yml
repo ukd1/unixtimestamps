@@ -34,3 +34,17 @@ spec:
           requests:
             memory: "64Mi"
             cpu: "100m"
+        readinessProbe:
+          httpGet:
+            path: /readiness
+            port: 8080
+          initialDelaySeconds: 0
+          periodSeconds: 1
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8080
+          initialDelaySeconds: 0
+          periodSeconds: 6
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 1

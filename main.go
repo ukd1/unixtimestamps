@@ -2,11 +2,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"io"
 	"os"
 	"strconv"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -19,6 +20,18 @@ func main() {
 
 	r.GET("/", func(c *gin.Context) {
 		c.HTML(200, "index.html", gin.H{})
+	})
+
+	r.GET("/healthz", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"status": "ok",
+		})
+	})
+
+	r.GET("/readiness", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"status": "ok",
+		})
 	})
 
 	r.GET("/robots.txt", func(c *gin.Context) {
