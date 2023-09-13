@@ -18,7 +18,8 @@ RUN go mod verify
 COPY main.go .
 COPY templates ./templates
 
-RUN CGO_ENABLED=0 go build -ldflags "-s -w" -o uts
+ARG GIT_SHA=unknown
+RUN CGO_ENABLED=0 go build -ldflags "-s -w -X main.gitSHA=$GIT_SHA" -o uts
 
 FROM scratch
 COPY --from=base /usr/share/zoneinfo /usr/share/zoneinfo

@@ -28,3 +28,4 @@ jobs:
           platforms: linux/amd64,linux/arm64
           cache-from: type=registry,ref=ghcr.io/ukd1/unixtimestamps:buildcache
           cache-to: type=registry,ref=ghcr.io/ukd1/unixtimestamps:buildcache,mode=max
+          build-args: GIT_SHA=${{ github.sha }}

@@ -13,6 +13,8 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
+var gitSHA = "unknown"
+
 func main() {
 	const RFC2822 = "Mon Jan 02 15:04:05 -0700 2006"
 	const BASE_URL = "https://unixtimestamps.rsmith.co"
@@ -62,7 +64,7 @@ func main() {
 	r.LoadHTMLGlob("templates/*")
 
 	r.GET("/", func(c *gin.Context) {
-		c.HTML(200, "index.html", gin.H{})
+		c.HTML(200, "index.html", gin.H{"gitSHA": gitSHA})
 	})
 
 	r.GET("/healthz", func(c *gin.Context) {
@@ -141,6 +143,7 @@ func main() {
 			"RFC3339":     t.Format(time.RFC3339),
 			"RFC3339Nano": t.Format(time.RFC3339Nano),
 			"RFC2822":     t.Format(RFC2822),
+			"gitSHA":      gitSHA,
 		})
 	})
 
