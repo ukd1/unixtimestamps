@@ -7,7 +7,9 @@ import (
 	"strconv"
 	"time"
 
+	ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 )
 
 func main() {
@@ -15,7 +17,10 @@ func main() {
 	const BASE_URL = "https://unixtimestamps.rsmith.co"
 	const SITEMAP_JUMP = 50000
 
-	r := gin.Default()
+	r := gin.New()
+	r.Use(gin.Recovery())
+	logger, _ := zap.NewProduction()
+	r.Use(ginzap.Ginzap(logger, time.RFC3339, true))
 	r.LoadHTMLGlob("templates/*")
 
 	r.GET("/", func(c *gin.Context) {

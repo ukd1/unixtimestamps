@@ -17,7 +17,8 @@ RUN go mod verify
 
 COPY main.go .
 COPY templates ./templates
-RUN CGO_ENABLED=0 GIN_MODE=release go build -ldflags "-s -w" -o uts
+
+RUN CGO_ENABLED=0 go build -ldflags "-s -w" -o uts
 
 FROM scratch
 COPY --from=base /usr/share/zoneinfo /usr/share/zoneinfo

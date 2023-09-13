@@ -27,19 +27,22 @@ spec:
       containers:
       - name: unixtimestamps
         image: ghcr.io/ukd1/unixtimestamps:latest
+        env:
+        - name: GIN_MODE
+          value: "release"
         resources:
-          limits:
-            memory: "64Mi"
-            cpu: "250m"
           requests:
-            memory: "16Mi"
-            cpu: "50m"
+            memory: "8Mi"
+            cpu: "10m"
+          limits:
+            memory: "32Mi"
+            cpu: "100m"
         readinessProbe:
           httpGet:
             path: /readiness
             port: 8080
           initialDelaySeconds: 0
-          periodSeconds: 1
+          periodSeconds: 6
         livenessProbe:
           httpGet:
             path: /healthz
