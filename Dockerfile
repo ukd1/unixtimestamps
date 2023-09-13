@@ -1,7 +1,34 @@
-FROM golang:1.21
+FROM golang:1.21-bullseye as base
+
+RUN adduser \
+  --disabled-password \
+  --gecos "" \
+  --home "/app" \
+  --shell "/sbin/nologin" \
+  --no-create-home \
+  --uid 65532 \
+  small-user
+
 WORKDIR /app
-COPY ./ /app/
-RUN go build -ldflags "-s -w"
+
+COPY go.mod go.sum /app/
+RUN go mod download
+RUN go mod verify
+
+COPY main.go .
+COPY templates ./templates
+RUN CGO_ENABLED=0 GIN_MODE=release go build -ldflags "-s -w" -o uts
+
+FROM scratch
+COPY --from=base /usr/share/zoneinfo /usr/share/zoneinfo
+COPY --from=base /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+COPY --from=base /etc/passwd /etc/passwd
+COPY --from=base /etc/group /etc/group
+
 WORKDIR /app
+COPY --from=base /app/uts /app/uts
+COPY --from=base /app/templates/* /app/templates/
+
+USER small-user:small-user
 EXPOSE 8080/tcp
 ENTRYPOINT ["/app/uts"]
