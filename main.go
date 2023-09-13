@@ -55,7 +55,7 @@ func main() {
 			i := 0
 			for i < 2147472000 {
 				i += SITEMAP_JUMP
-				w.Write([]byte(fmt.Sprintf("\n<sitemap>\n <loc>%s/sitemaps/%d/%d/map.txt</loc>\n <lastmod>%s</lastmod>\n</sitemap>", BASE_URL, i, i+SITEMAP_JUMP, t)))
+				w.Write([]byte(fmt.Sprintf("<sitemap><loc>%s/sitemaps/%d/%d/map.txt</loc><lastmod>%s</lastmod></sitemap>", BASE_URL, i, i+SITEMAP_JUMP, t)))
 			}
 
 			w.Write([]byte("</sitemapindex>"))
