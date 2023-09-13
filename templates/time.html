@@ -2,13 +2,13 @@
 <html>
 <head>
   <title>Unix timestamp {{ .ts_unix }} / {{ .RFC850 }}</title>
+  <link rel="canonical" href="https://unixtimestamps.rsmith.co/unixtimestamp/{{ .ts_unix }}" />
+  <meta property="og:url" content="https://unixtimestamps.rsmith.co/unixtimestamp/{{ .ts_unix }}" />
   <meta property="og:title" content="Timestamp: {{ .ts_unix }} / {{ .RFC850 }}" />
   <meta property="og:description" content="Unix timestamp information about {{ .ts_unix }} and it's conversion to RFC standards" />
-  <meta property="og:url" content="https://www.unixtimestamps.org/unixtimestamp/{{ .ts_unix }}" />
-
+  <meta property="og:type" content="website" />
   <meta name="description" content="Unix timestamp information about {{ .ts_unix }} and it's conversion to RFC standards. Convert any unix timestamp to RFC standards.">
   <meta name="keywords" content="conversion, converter, epoch, programming, rfc, stamp, standards, time, timestamp, unix">
-
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
   body {
