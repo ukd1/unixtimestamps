@@ -1,48 +1,177 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <title>Unix timestamp index</title>
-  <link rel="canonical" href="https://unixtimestamps.rsmith.co/" />
-  <meta property="og:url" content="https://unixtimestamps.rsmith.co/" />
-  <meta property="og:title" content="Unix Timestamp Index" />
-  <meta property="og:description" content="Unix timestamp information every timestamp and it's conversion to RFC standards" />
-  <meta property="og:type" content="website" />
-  <meta name="description" content="Unix timestamp information about all timestamps and their conversion to RFC standards. Convert any unix timestamp to RFC standards.">
-  <meta name="keywords" content="conversion, converter, epoch, programming, rfc, stamp, standards, time, timestamp, unix">
-  <meta name="google-site-verification" content="-U6zAp_AaTkCZkycKQfMOSC2lH4f_Ik8UxkuURKOKis" />
-  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-  <style>
-  body {
-    font-family: "Open Sans","Helvetica Neue",Helvetica,sans-serif;
-    -webkit-font-smoothing: antialiased;
-  }
-  table { margin: 0.5em; }
-  th, td { padding: 0.5em; }
-  th { text-align: left; }
-  td.r { text-align: right; }
-  </style>
-</head>
-<body>
-  <h1>Unix timestamp index</h1>
+    <head>
+        <title>Unix timestamp index</title>
+        <link rel="canonical" href="https://unixtimestamps.rsmith.co/" />
+        <meta property="og:url" content="https://unixtimestamps.rsmith.co/" />
+        <meta property="og:title" content="Unix Timestamp Index" />
+        <meta
+            property="og:description"
+            content="Unix timestamp information every timestamp and it's conversion to RFC standards"
+        />
+        <meta property="og:type" content="website" />
+        <meta
+            name="description"
+            content="Unix timestamp information about all timestamps and their conversion to RFC standards. Convert any unix timestamp to RFC standards."
+        />
+        <meta
+            name="keywords"
+            content="conversion, converter, epoch, programming, rfc, stamp, standards, time, timestamp, unix"
+        />
+        <meta
+            name="google-site-verification"
+            content="-U6zAp_AaTkCZkycKQfMOSC2lH4f_Ik8UxkuURKOKis"
+        />
+        <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+        <style>
+            body {
+                font-family: "Open Sans", "Helvetica Neue", Helvetica,
+                    sans-serif;
+                -webkit-font-smoothing: antialiased;
+                background-color: #f5f5f5;
+                color: #333;
+                margin: 0;
+                padding: 20px;
+            }
 
-  <p>Checkout the following notable exampes:</p>
+            h1,
+            h2 {
+                color: #2c3e50;
+            }
 
-  <ul>
-    <li><a href="/unixtimestamp/1000000000">The unix billennium (01:46:40 UTC on Sunday, 9 September 2001)</a></li>
-    <li><a href="/unixtimestamp/1234567890">1234567890 - like the keyboard row (23:31:30 UTC on 13 February 2009)</a></li>
-    <li><a href="/unixtimestamp/2147483647">signed 32-bit versions of the Unix time stamp will cease to work (03:14:08 UTC on Tuesday, 19 January 2038)</a></li>
-    <li><a href="/unixtimestamp/4294967295">unsigned 32-bit versions of the Unix time stamp will cease to work (06:28:15 UTC on Sunday, 7 February 2106)</a></li>
-  </ul>
-  <p>See more <a href="https://en.wikipedia.org/wiki/Unix_time#Notable_events_in_Unix_time" rel="noopener">here</a></p>
+            a {
+                color: #2980b9;
+                text-decoration: none;
+            }
 
+            a:hover {
+                text-decoration: underline;
+            }
 
-  <h2>What is the unix time stamp?</h2>
-  <p>It's the number of seconds since the Unix Epoch. The Unix Epoch starts January 1st, 1970 at UTC, and skips <a href="https://en.wikipedia.org/wiki/Leap_second" rel="noopener">leap seconds</a>. The Unix Epoch is based on a UTC starting point, so does not change in different timezones. <a href="https://en.wikipedia.org/wiki/Unix_time" rel="noopener">Read more on wikipedia</a>.</p>
+            ul {
+                list-style: none;
+                padding: 0;
+            }
 
-  <h2>What happens on January 19, 2038?</h2>
-  <p>In early 2038 the Unix Time Stamp, if uses 32-bit signed integer, will overflow. This is really bad. Older systems will need to upgrade their timestamp storage to cope to avoid failure. <a href="https://en.wikipedia.org/wiki/Year_2038_problem" rel="noopener">Read more on wikipedia</a>.</p>
+            ul li {
+                background-color: #ecf0f1;
+                margin-bottom: 10px;
+                padding: 10px;
+                border-radius: 5px;
+            }
 
-  <hr />
-  <p><a href="/">Go back to the index</a> | <a href="https://github.com/ukd1/unixtimestamps/commit/{{ .gitSHA }}" rel="noopener">See the code</a></p>
-</body>
+            ul li:hover {
+                background-color: #bdc3c7;
+            }
+
+            table {
+                width: 100%;
+                margin: 20px 0;
+                border-collapse: collapse;
+            }
+
+            th,
+            td {
+                padding: 10px;
+                border-bottom: 1px solid #bdc3c7;
+            }
+
+            th {
+                background-color: #34495e;
+                color: white;
+            }
+
+            td.r {
+                text-align: right;
+            }
+
+            hr {
+                border: 0;
+                height: 1px;
+                background-image: linear-gradient(to right, #ccc, #333, #ccc);
+            }
+
+            footer {
+                text-align: center;
+                padding: 20px 0;
+                font-size: 0.8em;
+                color: #7f8c8d;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Unix timestamp index</h1>
+
+        <p>Checkout the following notable exampes:</p>
+
+        <ul>
+            <li>
+                <a href="/unixtimestamp/1000000000"
+                    >The unix billennium (01:46:40 UTC on Sunday, 9 September
+                    2001)</a
+                >
+            </li>
+            <li>
+                <a href="/unixtimestamp/1234567890"
+                    >1234567890 - like the keyboard row (23:31:30 UTC on 13
+                    February 2009)</a
+                >
+            </li>
+            <li>
+                <a href="/unixtimestamp/2147483647"
+                    >signed 32-bit versions of the Unix time stamp will cease to
+                    work (03:14:08 UTC on Tuesday, 19 January 2038)</a
+                >
+            </li>
+            <li>
+                <a href="/unixtimestamp/4294967295"
+                    >unsigned 32-bit versions of the Unix time stamp will cease
+                    to work (06:28:15 UTC on Sunday, 7 February 2106)</a
+                >
+            </li>
+        </ul>
+        <p>
+            See more
+            <a
+                href="https://en.wikipedia.org/wiki/Unix_time#Notable_events_in_Unix_time"
+                rel="noopener"
+                >here</a
+            >
+        </p>
+
+        <h2>What is the unix time stamp?</h2>
+        <p>
+            It's the number of seconds since the Unix Epoch. The Unix Epoch
+            starts January 1st, 1970 at UTC, and skips
+            <a href="https://en.wikipedia.org/wiki/Leap_second" rel="noopener"
+                >leap seconds</a
+            >. The Unix Epoch is based on a UTC starting point, so does not
+            change in different timezones.
+            <a href="https://en.wikipedia.org/wiki/Unix_time" rel="noopener"
+                >Read more on wikipedia</a
+            >.
+        </p>
+
+        <h2>What happens on January 19, 2038?</h2>
+        <p>
+            In early 2038 the Unix Time Stamp, if uses 32-bit signed integer,
+            will overflow. This is really bad. Older systems will need to
+            upgrade their timestamp storage to cope to avoid failure.
+            <a
+                href="https://en.wikipedia.org/wiki/Year_2038_problem"
+                rel="noopener"
+                >Read more on wikipedia</a
+            >.
+        </p>
+
+        <hr />
+        <p>
+            <a href="/">Go back to the index</a> |
+            <a
+                href="https://github.com/ukd1/unixtimestamps/commit/{{ .gitSHA }}"
+                rel="noopener"
+                >See the code</a
+            >
+        </p>
+    </body>
 </html>

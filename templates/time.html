@@ -1,137 +1,377 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <title>Unix timestamp {{ .ts_unix }} / {{ .RFC850 }}</title>
-  <link rel="canonical" href="https://unixtimestamps.rsmith.co/unixtimestamp/{{ .ts_unix }}" />
-  <meta property="og:url" content="https://unixtimestamps.rsmith.co/unixtimestamp/{{ .ts_unix }}" />
-  <meta property="og:title" content="Timestamp: {{ .ts_unix }} / {{ .RFC850 }}" />
-  <meta property="og:description" content="Unix timestamp information about {{ .ts_unix }} and it's conversion to RFC standards" />
-  <meta property="og:type" content="website" />
-  <meta name="description" content="Unix timestamp information about {{ .ts_unix }} and it's conversion to RFC standards. Convert any unix timestamp to RFC standards.">
-  <meta name="keywords" content="conversion, converter, epoch, programming, rfc, stamp, standards, time, timestamp, unix">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-  <style>
-  body {
-    font-family: "Open Sans","Helvetica Neue",Helvetica,sans-serif;
-    -webkit-font-smoothing: antialiased;
-  }
-  table { margin: 1em 0em 1em; width: 100%; }
-  th, td { padding: 0.5em; }
-  th { text-align: left; }
-  td.r { text-align: right; }
+    <head>
+        <title>Unix timestamp {{ .ts_unix }} / {{ .RFC850 }}</title>
+        <link
+            rel="canonical"
+            href="https://unixtimestamps.rsmith.co/unixtimestamp/{{ .ts_unix }}"
+        />
+        <meta
+            property="og:url"
+            content="https://unixtimestamps.rsmith.co/unixtimestamp/{{ .ts_unix }}"
+        />
+        <meta
+            property="og:title"
+            content="Timestamp: {{ .ts_unix }} / {{ .RFC850 }}"
+        />
+        <meta
+            property="og:description"
+            content="Unix timestamp information about {{ .ts_unix }} and it's conversion to RFC standards"
+        />
+        <meta property="og:type" content="website" />
+        <meta
+            name="description"
+            content="Unix timestamp information about {{ .ts_unix }} and it's conversion to RFC standards. Convert any unix timestamp to RFC standards."
+        />
+        <meta
+            name="keywords"
+            content="conversion, converter, epoch, programming, rfc, stamp, standards, time, timestamp, unix"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+        <style>
+            body {
+                font-family: "Open Sans", "Helvetica Neue", Helvetica,
+                    sans-serif;
+                -webkit-font-smoothing: antialiased;
+                background-color: #f5f5f5;
+                color: #333;
+                margin: 0;
+                padding: 20px;
+            }
 
-  #timestampInput, button, form { display: inline-block; margin-bottom: 0; }
-  </style>
-</head>
-<body>
-  <h1>Unix timestamp {{ .ts_unix }}</h1>
+            h1,
+            h2 {
+                color: #2c3e50;
+            }
 
-  <div>Jump to a timestamp:
-    <form onsubmit="event.preventDefault(); redirectToTimestamp();" style="display: inline;">
-      <input type="text" id="timestampInput" type="number" min="0" pattern="\d*" placeholder="Enter Unix timestamp">
-      <button type="submit">Go</button>
-    </form>
-  </div>
+            a {
+                color: #2980b9;
+                text-decoration: none;
+            }
 
-  <script>
-    function redirectToTimestamp() {
-      const timestamp = parseInt(document.getElementById('timestampInput').value, 10);
-      if (!isNaN(timestamp)) {
-        window.location.href = `https://unixtimestamps.rsmith.co/unixtimestamp/${timestamp}?utm_source=timestamp_form&utm_medium=web&utm_campaign=timestamp_redirect`;
-      }
-    }
-  </script>
+            a:hover {
+                text-decoration: underline;
+            }
 
-  <p>The following table converts the unix timestamp {{ .ts_unix }} to various other RFC formats:</p>
+            ul {
+                list-style: none;
+                padding: 0;
+            }
 
-  <table>
-  <thead>
-  <tr>
-    <td>
-      &lt; <a href="/unixtimestamp/{{ .ts_unix_jmm }}">{{ .ts_unix_jmm }}</a>
-      &mdash; <a href="/unixtimestamp/{{ .ts_unix_mm }}">{{ .ts_unix_mm }}</a>
-    </td>
-    <td class="r">
-      <a href="/unixtimestamp/{{ .ts_unix_pp }}">{{ .ts_unix_pp }}</a> &mdash;
-      <a href="/unixtimestamp/{{ .ts_unix_jpp }}">{{ .ts_unix_jpp }}</a> &gt;
-    </td>
-  </tr>
-  <tr>
-    <th>Standard name</th>
-    <th>Equivalent</th>
-  </thead>
-  <tbody>
-  <tr>
-    <td>Unix Timestamp:</td>
-    <td><time datetime="{{ .RFC3339 }}">{{ .ts_unix }}</time></td>
-  </tr>
-  <tr>
-    <td>ANSIC:</td>
-    <td><time datetime="{{ .RFC3339 }}">{{ .ANSIC }}</time> in ANSIC format</td>
-  </tr>
-  <tr>
-    <td>UnixDate:</td>
-    <td><time datetime="{{ .RFC3339 }}">{{ .UnixDate }}</time> in Unix Date format</td>
-  </tr>
-  <tr>
-    <td>RubyDate:</td>
-    <td><time datetime="{{ .RFC3339 }}">{{ .RubyDate }}</time> in Ruby Date format</td>
-  </tr>
-  <tr>
-    <td><a href="https://www.ietf.org/rfc/rfc822.txt" rel="noopener">RFC822</a>:</td>
-    <td><time datetime="{{ .RFC3339 }}">{{ .RFC822 }}</time> in RFC 822</td>
-  </tr>
-  <tr>
-    <td><a href="https://www.ietf.org/rfc/rfc822.txt" rel="noopener">RFC822Z</a>:</td>
-    <td><time datetime="{{ .RFC3339 }}">{{ .RFC822Z }}</time> in RFC822Z format</td>
-  </tr>
-  <tr>
-    <td><a href="https://www.ietf.org/rfc/rfc850.txt" rel="noopener">RFC850</a>:</td>
-    <td><time datetime="{{ .RFC3339 }}">{{ .RFC850 }}</time> in RFC 850 format</td>
-  </tr>
-  <tr>
-    <td><a href="https://www.ietf.org/rfc/rfc1123.txt" rel="noopener">RFC1123</a>:</td>
-    <td><time datetime="{{ .RFC3339 }}">{{ .RFC1123 }}</time> in RFC 1123 format</td>
-  </tr>
-  <tr>
-    <td><a href="https://www.ietf.org/rfc/rfc1123.txt" rel="noopener">RFC1123Z</a>:</td>
-    <td><time datetime="{{ .RFC3339 }}">{{ .RFC1123Z }}</time> in RFC 1123Z format</td>
-  </tr>
-  <tr>
-    <td><a href="https://www.ietf.org/rfc/rfc3339.txt" rel="noopener">RFC3339</a>:</td>
-    <td><time datetime="{{ .RFC3339 }}">{{ .RFC3339 }}</time> in RFC 3339 format</td>
-  </tr>
-  <tr>
-    <td><a href="https://www.ietf.org/rfc/rfc3339.txt" rel="noopener">RFC3339Nano</a>:</td>
-    <td><time datetime="{{ .RFC3339 }}">{{ .RFC3339Nano }}</time> in RFC 3339 nano format</td>
-  </tr>
-  <tr>
-    <td><a href="https://www.ietf.org/rfc/rfc2822.txt" rel="noopener">RFC2822</a>:</td>
-    <td><time datetime="{{ .RFC3339 }}">{{ .RFC2822 }}</time> in RFC 2822 format</td>
-  </tr>
-  </tbody>
-  <tfoot>
-  <tr>
-    <td>
-      &lt; <a href="/unixtimestamp/{{ .ts_unix_jmm }}">{{ .ts_unix_jmm }}</a>
-      &lt; <a href="/unixtimestamp/{{ .ts_unix_mm }}">{{ .ts_unix_mm }}</a>
-    </td>
-    <td class="r">
-      <a href="/unixtimestamp/{{ .ts_unix_pp }}">{{ .ts_unix_pp }}</a> &mdash;
-      <a href="/unixtimestamp/{{ .ts_unix_jpp }}">{{ .ts_unix_jpp }}</a> &gt;
-    </td>
-  </tr>
-  </tfoot>
-  </table>
+            ul li {
+                background-color: #ecf0f1;
+                margin-bottom: 10px;
+                padding: 10px;
+                border-radius: 5px;
+            }
 
-  <h2>What is the unix time stamp?</h2>
-  <p>It's the number of seconds since the Unix Epoch. The Unix Epoch starts January 1st, 1970 at UTC, and skips <a href="https://en.wikipedia.org/wiki/Leap_second" rel="noopener">leap seconds</a>. The Unix Epoch is based on a UTC starting point, so does not change in different timezones. <a href="https://en.wikipedia.org/wiki/Unix_time" rel="noopener">Read more on wikipedia</a>.</p>
+            ul li:hover {
+                background-color: #bdc3c7;
+            }
 
-  <h2>What happens on January 19, 2038?</h2>
-  <p>In early 2038 the Unix Time Stamp, if uses 32-bit signed integer, will overflow. This is really bad. Older systems will need to upgrade their timestamp storage to cope to avoid failure. <a href="https://en.wikipedia.org/wiki/Year_2038_problem" rel="noopener">Read more on wikipedia</a>.</p>
+            table {
+                width: 100%;
+                margin: 20px 0;
+                border-collapse: collapse;
+            }
 
-  <hr />
-  <p><a href="/">Go back to the index</a> | <a href="https://github.com/ukd1/unixtimestamps/commit/{{ .gitSHA }}" rel="noopener">See the code</a></p>
-</body>
+            th,
+            td {
+                padding: 10px;
+                border-bottom: 1px solid #bdc3c7;
+            }
+
+            th {
+                background-color: #34495e;
+                color: white;
+            }
+
+            td.r {
+                text-align: right;
+            }
+
+            hr {
+                border: 0;
+                height: 1px;
+                background-image: linear-gradient(to right, #ccc, #333, #ccc);
+            }
+
+            footer {
+                text-align: center;
+                padding: 20px 0;
+                font-size: 0.8em;
+                color: #7f8c8d;
+            }
+            #timestampInput,
+            button,
+            form {
+                display: inline-block;
+                margin-bottom: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Unix timestamp {{ .ts_unix }}</h1>
+
+        <div>
+            Jump to a timestamp:
+            <form
+                onsubmit="event.preventDefault(); redirectToTimestamp();"
+                style="display: inline"
+            >
+                <input
+                    type="text"
+                    id="timestampInput"
+                    type="number"
+                    min="0"
+                    pattern="\d*"
+                    placeholder="Enter Unix timestamp"
+                />
+                <button type="submit">Go</button>
+            </form>
+        </div>
+
+        <script>
+            function redirectToTimestamp() {
+                const timestamp = parseInt(
+                    document.getElementById("timestampInput").value,
+                    10,
+                );
+                if (!isNaN(timestamp)) {
+                    window.location.href = `https://unixtimestamps.rsmith.co/unixtimestamp/${timestamp}?utm_source=timestamp_form&utm_medium=web&utm_campaign=timestamp_redirect`;
+                }
+            }
+        </script>
+
+        <p>
+            The following table converts the unix timestamp {{ .ts_unix }} to
+            various other RFC formats:
+        </p>
+
+        <table>
+            <thead>
+                <tr>
+                    <td>
+                        &lt;
+                        <a href="/unixtimestamp/{{ .ts_unix_jmm }}"
+                            >{{ .ts_unix_jmm }}</a
+                        >
+                        &mdash;
+                        <a href="/unixtimestamp/{{ .ts_unix_mm }}"
+                            >{{ .ts_unix_mm }}</a
+                        >
+                    </td>
+                    <td class="r">
+                        <a href="/unixtimestamp/{{ .ts_unix_pp }}"
+                            >{{ .ts_unix_pp }}</a
+                        >
+                        &mdash;
+                        <a href="/unixtimestamp/{{ .ts_unix_jpp }}"
+                            >{{ .ts_unix_jpp }}</a
+                        >
+                        &gt;
+                    </td>
+                </tr>
+                <tr>
+                    <th>Standard name</th>
+                    <th>Equivalent</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Unix Timestamp:</td>
+                    <td>
+                        <time datetime="{{ .RFC3339 }}">{{ .ts_unix }}</time>
+                    </td>
+                </tr>
+                <tr>
+                    <td>ANSIC:</td>
+                    <td>
+                        <time datetime="{{ .RFC3339 }}">{{ .ANSIC }}</time> in
+                        ANSIC format
+                    </td>
+                </tr>
+                <tr>
+                    <td>UnixDate:</td>
+                    <td>
+                        <time datetime="{{ .RFC3339 }}">{{ .UnixDate }}</time>
+                        in Unix Date format
+                    </td>
+                </tr>
+                <tr>
+                    <td>RubyDate:</td>
+                    <td>
+                        <time datetime="{{ .RFC3339 }}">{{ .RubyDate }}</time>
+                        in Ruby Date format
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a
+                            href="https://www.ietf.org/rfc/rfc822.txt"
+                            rel="noopener"
+                            >RFC822</a
+                        >:
+                    </td>
+                    <td>
+                        <time datetime="{{ .RFC3339 }}">{{ .RFC822 }}</time> in
+                        RFC 822
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a
+                            href="https://www.ietf.org/rfc/rfc822.txt"
+                            rel="noopener"
+                            >RFC822Z</a
+                        >:
+                    </td>
+                    <td>
+                        <time datetime="{{ .RFC3339 }}">{{ .RFC822Z }}</time> in
+                        RFC822Z format
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a
+                            href="https://www.ietf.org/rfc/rfc850.txt"
+                            rel="noopener"
+                            >RFC850</a
+                        >:
+                    </td>
+                    <td>
+                        <time datetime="{{ .RFC3339 }}">{{ .RFC850 }}</time> in
+                        RFC 850 format
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a
+                            href="https://www.ietf.org/rfc/rfc1123.txt"
+                            rel="noopener"
+                            >RFC1123</a
+                        >:
+                    </td>
+                    <td>
+                        <time datetime="{{ .RFC3339 }}">{{ .RFC1123 }}</time> in
+                        RFC 1123 format
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a
+                            href="https://www.ietf.org/rfc/rfc1123.txt"
+                            rel="noopener"
+                            >RFC1123Z</a
+                        >:
+                    </td>
+                    <td>
+                        <time datetime="{{ .RFC3339 }}">{{ .RFC1123Z }}</time>
+                        in RFC 1123Z format
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a
+                            href="https://www.ietf.org/rfc/rfc3339.txt"
+                            rel="noopener"
+                            >RFC3339</a
+                        >:
+                    </td>
+                    <td>
+                        <time datetime="{{ .RFC3339 }}">{{ .RFC3339 }}</time> in
+                        RFC 3339 format
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a
+                            href="https://www.ietf.org/rfc/rfc3339.txt"
+                            rel="noopener"
+                            >RFC3339Nano</a
+                        >:
+                    </td>
+                    <td>
+                        <time datetime="{{ .RFC3339 }}"
+                            >{{ .RFC3339Nano }}</time
+                        >
+                        in RFC 3339 nano format
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a
+                            href="https://www.ietf.org/rfc/rfc2822.txt"
+                            rel="noopener"
+                            >RFC2822</a
+                        >:
+                    </td>
+                    <td>
+                        <time datetime="{{ .RFC3339 }}">{{ .RFC2822 }}</time> in
+                        RFC 2822 format
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>
+                        &lt;
+                        <a href="/unixtimestamp/{{ .ts_unix_jmm }}"
+                            >{{ .ts_unix_jmm }}</a
+                        >
+                        &lt;
+                        <a href="/unixtimestamp/{{ .ts_unix_mm }}"
+                            >{{ .ts_unix_mm }}</a
+                        >
+                    </td>
+                    <td class="r">
+                        <a href="/unixtimestamp/{{ .ts_unix_pp }}"
+                            >{{ .ts_unix_pp }}</a
+                        >
+                        &mdash;
+                        <a href="/unixtimestamp/{{ .ts_unix_jpp }}"
+                            >{{ .ts_unix_jpp }}</a
+                        >
+                        &gt;
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <h2>What is the unix time stamp?</h2>
+        <p>
+            It's the number of seconds since the Unix Epoch. The Unix Epoch
+            starts January 1st, 1970 at UTC, and skips
+            <a href="https://en.wikipedia.org/wiki/Leap_second" rel="noopener"
+                >leap seconds</a
+            >. The Unix Epoch is based on a UTC starting point, so does not
+            change in different timezones.
+            <a href="https://en.wikipedia.org/wiki/Unix_time" rel="noopener"
+                >Read more on wikipedia</a
+            >.
+        </p>
+
+        <h2>What happens on January 19, 2038?</h2>
+        <p>
+            In early 2038 the Unix Time Stamp, if uses 32-bit signed integer,
+            will overflow. This is really bad. Older systems will need to
+            upgrade their timestamp storage to cope to avoid failure.
+            <a
+                href="https://en.wikipedia.org/wiki/Year_2038_problem"
+                rel="noopener"
+                >Read more on wikipedia</a
+            >.
+        </p>
+
+        <hr />
+        <p>
+            <a href="/">Go back to the index</a> |
+            <a
+                href="https://github.com/ukd1/unixtimestamps/commit/{{ .gitSHA }}"
+                rel="noopener"
+                >See the code</a
+            >
+        </p>
+    </body>
 </html>
