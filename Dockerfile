@@ -1,13 +1,13 @@
-FROM golang:1.21-bullseye as base
+FROM golang:1.22-alpine as base
 
 RUN adduser \
-  --disabled-password \
-  --gecos "" \
-  --home "/app" \
-  --shell "/sbin/nologin" \
-  --no-create-home \
-  --uid 65532 \
-  small-user
+    --disabled-password \
+    --gecos "" \
+    --home "/app" \
+    --shell "/sbin/nologin" \
+    --no-create-home \
+    --uid 65532 \
+    small-user
 
 WORKDIR /app
 
