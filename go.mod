@@ -1,6 +1,6 @@
 module uts
 
-go 1.22
+go 1.21
 
 require (
 	github.com/gin-contrib/zap v1.1.3
