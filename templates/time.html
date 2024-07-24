@@ -1,7 +1,9 @@
 <!doctype html>
-<html>
+<html lang="en">
     <head>
         <title>Unix timestamp {{ .ts_unix }} / {{ .RFC850 }}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
         <link
             rel="canonical"
             href="https://unixtimestamps.rsmith.co/unixtimestamp/{{ .ts_unix }}"
@@ -27,8 +29,6 @@
             name="keywords"
             content="conversion, converter, epoch, programming, rfc, stamp, standards, time, timestamp, unix"
         />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
         <style>
             body {
                 font-family: "Open Sans", "Helvetica Neue", Helvetica,
@@ -47,11 +47,12 @@
 
             a {
                 color: #2980b9;
-                text-decoration: none;
+                text-decoration: underline; /* Add underline */
+                font-weight: bold; /* Make links bold */
             }
 
             a:hover {
-                text-decoration: underline;
+                text-decoration: none;
             }
 
             ul {
