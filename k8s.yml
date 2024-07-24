@@ -15,7 +15,7 @@ metadata:
   labels:
     app: unixtimestamps
 spec:
-  replicas: 4
+  replicas: 2
   selector:
     matchLabels:
       app: unixtimestamps
@@ -25,29 +25,29 @@ spec:
         app: unixtimestamps
     spec:
       containers:
-      - name: unixtimestamps
-        image: ghcr.io/ukd1/unixtimestamps:latest
-        env:
-        - name: GIN_MODE
-          value: "release"
-        resources:
-          requests:
-            memory: "8Mi"
-            cpu: "10m"
-          limits:
-            memory: "32Mi"
-            cpu: "100m"
-        readinessProbe:
-          httpGet:
-            path: /readiness
-            port: 8080
-          initialDelaySeconds: 0
-          periodSeconds: 6
-        livenessProbe:
-          httpGet:
-            path: /healthz
-            port: 8080
-          initialDelaySeconds: 0
-          periodSeconds: 6
+        - name: unixtimestamps
+          image: ghcr.io/ukd1/unixtimestamps:latest
+          env:
+            - name: GIN_MODE
+              value: "release"
+          resources:
+            requests:
+              memory: "8Mi"
+              cpu: "10m"
+            limits:
+              memory: "32Mi"
+              cpu: "100m"
+          readinessProbe:
+            httpGet:
+              path: /readiness
+              port: 8080
+            initialDelaySeconds: 0
+            periodSeconds: 6
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 0
+            periodSeconds: 6
       restartPolicy: Always
       terminationGracePeriodSeconds: 1
