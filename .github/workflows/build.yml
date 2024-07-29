@@ -26,6 +26,6 @@ jobs:
           context: .
           tags: ghcr.io/ukd1/unixtimestamps:latest
           platforms: linux/amd64,linux/arm64
-          cache-from: type=registry,ref=ghcr.io/ukd1/unixtimestamps:buildcache
-          cache-to: type=registry,ref=ghcr.io/ukd1/unixtimestamps:buildcache,mode=max
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
           build-args: GIT_SHA=${{ github.sha }}
