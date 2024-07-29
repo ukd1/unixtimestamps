@@ -22,6 +22,10 @@ func main() {
 
 	r := gin.New()
 	r.Use(gin.Recovery())
+	r.Use(func(c *gin.Context) {
+		c.Header("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src data:;")
+		c.Next()
+	})
 
 	logger, _ := zap.NewProduction()
 
