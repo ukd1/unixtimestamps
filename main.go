@@ -80,7 +80,7 @@ func main() {
 	})
 
 	r.GET("/robots.txt", func(c *gin.Context) {
-		c.String(200, "allow: *\nSitemap: %s/sitemap.xml", BASE_URL)
+		c.String(200, "user-agent: *\nallow: *\nSitemap: %s/sitemap.xml", BASE_URL)
 	})
 
 	r.GET("/sitemap.xml", func(c *gin.Context) {
