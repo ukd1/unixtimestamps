@@ -1,31 +1,59 @@
-on: [push]
+name: Build and publish image
+
+on:
+  push:
+    branches: [master]
+    tags: ["v*"]
+
+permissions:
+  contents: read
+  packages: write
+
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build_unixtimestamps:
     runs-on: ubuntu-latest
     name: Build Unix Timestamps
     steps:
-      -
-        name: Log in to the Container registry
+      - name: Log in to the container registry
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      -
-        name: Checkout
+
+      - name: Checkout
         uses: actions/checkout@v4
-      -
-        name: Set up Docker Buildx
+
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-      -
-        name: Push
+
+      - name: Build and push commit-addressed image
+        id: build
         uses: docker/build-push-action@v6
         with:
           push: true
           context: .
-          tags: ghcr.io/ukd1/unixtimestamps:latest
+          tags: |
+            ghcr.io/ukd1/unixtimestamps:sha-${{ github.sha }}
+            ghcr.io/ukd1/unixtimestamps:${{ github.ref_name }}
+            ghcr.io/ukd1/unixtimestamps:latest
           platforms: linux/amd64,linux/arm64
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: GIT_SHA=${{ github.sha }}
+
+      - name: Render digest-pinned Kubernetes manifest
+        env:
+          IMAGE_DIGEST: ${{ steps.build.outputs.digest }}
+        run: sed "s|\${IMAGE_DIGEST}|${IMAGE_DIGEST}|g" k8s.yml > k8s-rendered.yml
+
+      - name: Upload Kubernetes manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: k8s-${{ github.sha }}
+          path: k8s-rendered.yml
+          if-no-files-found: error

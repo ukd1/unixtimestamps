@@ -26,7 +26,8 @@ spec:
     spec:
       containers:
         - name: unixtimestamps
-          image: ghcr.io/ukd1/unixtimestamps:latest
+          image: "ghcr.io/ukd1/unixtimestamps@${IMAGE_DIGEST}"
+          imagePullPolicy: IfNotPresent
           env:
             - name: GIN_MODE
               value: "release"
