@@ -1,6 +1,7 @@
 package main
 
 import (
+	"html"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -90,7 +91,9 @@ func TestTimestampUsesUTCAndRFC2822(t *testing.T) {
 		t.Fatalf("status = %d, want %d; body = %q", w.Code, http.StatusOK, w.Body.String())
 	}
 
-	body := w.Body.String()
+	// html/template escapes '+' to &#43; in the rendered page; compare against
+	// the unescaped text so the assertions read as the values a browser shows.
+	body := html.UnescapeString(w.Body.String())
 	for _, want := range []string{
 		"1970-01-01T00:00:00Z",
 		"Thu, 01 Jan 1970 00:00:00 +0000",
@@ -167,11 +170,22 @@ func testRouter() *gin.Engine {
 }
 
 func performRequest(r http.Handler, path string, headers map[string]string) *httptest.ResponseRecorder {
-	w := httptest.NewRecorder()
+	rec := httptest.NewRecorder()
+	// gin's c.Stream type-asserts the writer to http.CloseNotifier, which
+	// httptest.ResponseRecorder no longer satisfies as of Go 1.26. Wrapping it
+	// keeps the streaming sitemap handlers exercisable, matching a real server.
+	w := &closeNotifyRecorder{ResponseRecorder: rec, closed: make(chan bool, 1)}
 	req := httptest.NewRequest(http.MethodGet, path, nil)
 	for key, value := range headers {
 		req.Header.Set(key, value)
 	}
 	r.ServeHTTP(w, req)
-	return w
+	return rec
 }
+
+type closeNotifyRecorder struct {
+	*httptest.ResponseRecorder
+	closed chan bool
+}
+
+func (c *closeNotifyRecorder) CloseNotify() <-chan bool { return c.closed }
