@@ -51,4 +51,5 @@ spec:
             initialDelaySeconds: 0
             periodSeconds: 6
       restartPolicy: Always
-      terminationGracePeriodSeconds: 1
+      # Must exceed the app's shutdown budget (readiness drain + in-flight drain, ~13s).
+      terminationGracePeriodSeconds: 30

@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"strings"
+	"sync/atomic"
 	"testing"
 
 	"github.com/gin-gonic/gin"
@@ -164,9 +165,27 @@ func TestRequestLogFieldsUseRequestHeaders(t *testing.T) {
 	}
 }
 
+func TestReadinessReflectsShutdownState(t *testing.T) {
+	gin.SetMode(gin.TestMode)
+	var ready atomic.Bool
+	ready.Store(true)
+	r := newRouter(zap.NewNop(), &ready)
+
+	if w := performRequest(r, "/readiness", nil); w.Code != http.StatusOK {
+		t.Fatalf("while ready: status = %d, want %d", w.Code, http.StatusOK)
+	}
+
+	ready.Store(false)
+	if w := performRequest(r, "/readiness", nil); w.Code != http.StatusServiceUnavailable {
+		t.Fatalf("while draining: status = %d, want %d", w.Code, http.StatusServiceUnavailable)
+	}
+}
+
 func testRouter() *gin.Engine {
 	gin.SetMode(gin.TestMode)
-	return newRouter(zap.NewNop())
+	var ready atomic.Bool
+	ready.Store(true)
+	return newRouter(zap.NewNop(), &ready)
 }
 
 func performRequest(r http.Handler, path string, headers map[string]string) *httptest.ResponseRecorder {

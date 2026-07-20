@@ -1,11 +1,16 @@
 package main
 
 import (
+	"context"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
 	"os"
+	"os/signal"
 	"strconv"
+	"sync/atomic"
+	"syscall"
 	"time"
 
 	ginzap "github.com/gin-contrib/zap"
@@ -23,6 +28,11 @@ const (
 	maxUnixTimestamp    int64 = 253_402_300_799 // 9999-12-31T23:59:59Z
 )
 
+const (
+	shutdownDrainDelay = 3 * time.Second
+	shutdownTimeout    = 10 * time.Second
+)
+
 var gitSHA = "unknown"
 
 func main() {
@@ -32,18 +42,49 @@ func main() {
 	}
 	defer func() { _ = logger.Sync() }()
 
-	r := newRouter(logger)
-
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
 	}
-	if err := r.Run(":" + port); err != nil {
-		logger.Fatal("run HTTP server", zap.Error(err))
+
+	var ready atomic.Bool
+	ready.Store(true)
+
+	srv := &http.Server{
+		Addr:              ":" + port,
+		Handler:           newRouter(logger, &ready),
+		ReadHeaderTimeout: 10 * time.Second,
 	}
+
+	ctx, stop := signal.NotifyContext(context.Background(), syscall.SIGINT, syscall.SIGTERM)
+	defer stop()
+
+	go func() {
+		if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
+			logger.Fatal("run HTTP server", zap.Error(err))
+		}
+	}()
+	logger.Info("listening", zap.String("addr", srv.Addr))
+
+	<-ctx.Done()
+	stop() // a second signal now terminates immediately instead of being caught
+	logger.Info("shutdown requested, draining", zap.Duration("drain_delay", shutdownDrainDelay))
+
+	// Fail readiness first so Kubernetes stops routing new traffic here, then
+	// wait briefly for endpoint removal to propagate before we stop serving.
+	ready.Store(false)
+	time.Sleep(shutdownDrainDelay)
+
+	shutdownCtx, cancel := context.WithTimeout(context.Background(), shutdownTimeout)
+	defer cancel()
+	if err := srv.Shutdown(shutdownCtx); err != nil {
+		logger.Error("graceful shutdown timed out, forcing close", zap.Error(err))
+		_ = srv.Close()
+	}
+	logger.Info("shutdown complete")
 }
 
-func newRouter(logger *zap.Logger) *gin.Engine {
+func newRouter(logger *zap.Logger, ready *atomic.Bool) *gin.Engine {
 	r := gin.New()
 	r.Use(gin.Recovery())
 	r.Use(func(c *gin.Context) {
@@ -67,6 +108,10 @@ func newRouter(logger *zap.Logger) *gin.Engine {
 	})
 
 	r.GET("/readiness", func(c *gin.Context) {
+		if !ready.Load() {
+			c.JSON(http.StatusServiceUnavailable, gin.H{"status": "shutting down"})
+			return
+		}
 		c.JSON(http.StatusOK, gin.H{"status": "ok"})
 	})
 
